@@ -1,0 +1,95 @@
+.switch {
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  label {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+
+    .lever {
+      content: "";
+      display: inline-block;
+      position: relative;
+      width: 35px;
+      height: 20px;
+      background-color: gray;
+      border-radius: 15px;
+      margin: 0 8px;
+      -webkit-transition: background 0.3s ease;
+      transition: background 0.3s ease;
+      vertical-align: middle;
+    }
+  }
+  & > label input[type="checkbox"] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  & > label input[type="checkbox"]:checked + .lever {
+    background-color: #ec1968;
+  }
+  & > label input[type="checkbox"]:checked + .lever:before,
+  & > label input[type="checkbox"]:checked + .lever:after {
+    left: 18px;
+  }
+  & > label input[type="checkbox"]:checked + .lever:after {
+    background-color: #fff;
+  }
+  & > label .lever:before,
+  & > label .lever:after {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    left: 3px;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transition: left 0.3s ease, background 0.3s ease,
+      -webkit-box-shadow 0.1s ease, -webkit-transform 0.1s ease;
+    transition: left 0.3s ease, background 0.3s ease,
+      -webkit-box-shadow 0.1s ease, -webkit-transform 0.1s ease;
+    transition: left 0.3s ease, background 0.3s ease, box-shadow 0.1s ease,
+      transform 0.1s ease;
+    transition: left 0.3s ease, background 0.3s ease, box-shadow 0.1s ease,
+      transform 0.1s ease, -webkit-box-shadow 0.1s ease,
+      -webkit-transform 0.1s ease;
+  }
+  & > label .lever:before {
+    background-color: rgba(38, 166, 154, 0.15);
+  }
+  & > label .lever:after {
+    background-color: #f1f1f1;
+    -webkit-box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+      0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+      0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  }
+  & > input[type="checkbox"][disabled] + .lever {
+    cursor: default;
+    background-color: rgba(0, 0, 0, 0.12);
+  }
+  & > label input[type="checkbox"][disabled] + .lever:after,
+  & > label input[type="checkbox"][disabled]:checked + .lever:after {
+    background-color: #949494;
+  }
+}
+.switch .on,
+.switch .off {
+  font-size: 14px;
+  color: gray;
+}
+
+.switch input[type="checkbox"]:checked ~ .on {
+  color: #ec1968;
+}
+
+.switch input[type="checkbox"]:checked ~ .off {
+  color: rgba(0, 0, 0, 0.3);
+}

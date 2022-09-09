@@ -1,0 +1,118 @@
+.motor-radio p + p {
+  margin-top: 0.5rem;
+}
+
+.motor-radio [type="radio"]:not(:checked),
+.motor-radio [type="radio"]:checked {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.motor-radio [type="radio"]:not(:checked) + span,
+.motor-radio [type="radio"]:checked + span {
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+  display: inline-block;
+  height: 25px;
+  line-height: 25px;
+  // font-size: 1rem;
+  -webkit-transition: 0.28s ease;
+  transition: 0.28s ease;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.motor-radio [type="radio"] + span:before,
+.motor-radio [type="radio"] + span:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 4px;
+  width: 16px;
+  height: 16px;
+  z-index: 0;
+  -webkit-transition: 0.28s ease;
+  transition: 0.28s ease;
+}
+
+/* Unchecked styles */
+.motor-radio [type="radio"] + span::before,
+.motor-radio [type="radio"] + span::after,
+.motor-radio [type="radio"]:checked + span::before,
+.motor-radio [type="radio"]:checked + span::after {
+  border-radius: 50%;
+}
+
+.motor-radio [type="radio"]:not(:checked) + span:before,
+.motor-radio [type="radio"]:not(:checked) + span:after {
+  border: 2px solid gray;
+}
+
+.motor-radio [type="radio"]:not(:checked) + span:after {
+  -webkit-transform: scale(0);
+  transform: scale(0);
+}
+
+/* Checked styles */
+.motor-radio [type="radio"]:checked + span:before {
+  border: 2px solid transparent;
+}
+
+.motor-radio [type="radio"]:checked + span:before,
+.motor-radio [type="radio"]:checked + span:after {
+  border: 2px solid #0b3ba7;
+}
+
+.motor-radio [type="radio"]:checked + span:after {
+  background-color: #0b3ba7;
+}
+
+.motor-radio [type="radio"]:checked + span:after {
+  -webkit-transform: scale(0.5);
+  transform: scale(0.5);
+}
+
+/* Disabled Radio  */
+.motor-radio [type="radio"]:disabled:checked + span:before {
+  border: 2px solid rgba(0, 0, 0, 0.14);
+}
+
+.motor-radio [type="radio"]:disabled:checked + span:after {
+  border: none;
+  background-color: rgba(0, 0, 0, 0.14);
+}
+
+/* Disabled style */
+.motor-radio [type="radio"]:disabled:not(:checked) + span:before,
+.motor-radio [type="radio"]:disabled:checked + span:before {
+  background-color: transparent;
+  border-color: rgba(0, 0, 0, 0.42);
+}
+
+.motor-radio [type="radio"]:disabled + span {
+  color: gray;
+}
+
+.motor-radio[type="radio"]:disabled:not(:checked) + span:before {
+  border-color: rgba(0, 0, 0, 0.14);
+}
+
+.motor-radio [type="radio"]:disabled:checked + span:after {
+  background-color: rgba(0, 0, 0, 0.14);
+  border-color: gray;
+}
+
+/* colors  */
+
+.motor-radio [type="radio"]:not(:checked) + span {
+  color: gray !important;
+}
+
+.motor-radio [type="radio"]:checked + span {
+  color: #2d2f39 !important;
+}

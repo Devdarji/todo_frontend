@@ -1,0 +1,14 @@
+.value-div {
+  & > h2 {
+    font-family: "Roboto-Bold";
+    font-size: 16px;
+    color: #2e2f3b;
+    width: 100%;
+    overflow-wrap: break-word;
+  }
+  & > p {
+    font-family: "Roboto-Regular";
+    font-size: 16px;
+    color: #7b7b7b;
+  }
+}
