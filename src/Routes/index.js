@@ -19,7 +19,7 @@ const Routes = memo(() => {
                                         exact={itm.exact}
                                         path={itm.path}
                                         name={itm.name}
-                                        component={itm.component}
+                                        element={<itm.component />}
                                     />
                                 );
                             })}
