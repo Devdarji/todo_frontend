@@ -1,10 +1,10 @@
+import React from 'react'
+
 const todoMain = () => {
   return (
-    <>
-      <div>
-        <h1>This is my Todo App</h1>
-      </div>
-    </>
+    <div>
+      <h1>This is My Todo App</h1>
+    </div>
   );
 };
 
