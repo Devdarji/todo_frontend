@@ -1,10 +1,13 @@
 import React from 'react'
+import NavBar from './NavBar';
+import TodoCard from './TodoCard';
 
 const todoMain = () => {
   return (
-    <div>
-      <h1>This is My Todo App</h1>
-    </div>
+    <>
+      <NavBar/>
+      <TodoCard/>
+    </>
   );
 };
 
