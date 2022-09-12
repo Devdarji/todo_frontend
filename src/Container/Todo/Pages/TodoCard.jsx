@@ -4,6 +4,9 @@ import { Button, Card, Container, Form, InputGroup, Nav } from "react-bootstrap"
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import serviceEndpoints from "../serviceEndpoints";
+import { todoService } from "../../../axiosInstance";
+
 
 const style = {
   position: "absolute",
@@ -21,7 +24,22 @@ function TodoCard() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [cardItem, setCardItem] = useState({})
 
+  
+
+  const fetchCardItems = async () => {
+    try{
+      let res = await todoService.get(serviceEndpoints.todoCardItem);
+
+      console.log("++++++++++++++++++++> ", res);
+      setCardItem(res.data.data)
+    }catch(e){
+      console.log(e);
+    }
+  }
+
+  fetchCardItems();
   return (
     <Container className="mt-4">
       <Button variant="primary" onClick={handleOpen}>
