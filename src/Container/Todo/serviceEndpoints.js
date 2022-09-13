@@ -1,5 +1,5 @@
 const serviceEndpoints = {
-    todoCardItem: `todo/card-items/`
+    todoCardItem: `card-items/`
 };
 
 export default serviceEndpoints;

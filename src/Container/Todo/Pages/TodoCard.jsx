@@ -1,13 +1,12 @@
 import { Box, Checkbox, FormControlLabel, FormGroup, Grid, Modal } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Container, Form, InputGroup, Nav } from "react-bootstrap";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-// import serviceEndpoints from "../serviceEndpoints";
-// import { todoService } from "../../../axiosInstance";
-// import axios from "axios";
-import http from '../../../axiosInstance'
+import serviceEndpoints from "../serviceEndpoints";
+import {todoService} from "../../../axiosInstance"
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -25,24 +24,36 @@ function TodoCard() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [cardItem, setCardItem] = useState({});
+  const [cardItem, setCardItem] = useState([]);
 
 
 
-  const fetchCardItems = async () => {
+  const todoCardItem = async () => {
     try {
-      let res = await http.get(
-        `todo/card-items/`,
-        );
+      const response = await axios.get("http://localhost:8006/todo/card-items/");
 
-      console.log("++++++++++++++++++++> ", res);
-      setCardItem(res.data.data);
-    } catch (e) {
-      console.log(e);
+      console.log(response.data.data);
+      setCardItem(response.data.data);
+    } catch (error) {
+      console.error(error);
     }
   };
 
-  fetchCardItems();
+  // const todoTasks = async () => {
+  //   try {
+  //     const response = await axios.get("http://localhost:8006/todo/card-items/");
+
+  //     console.log(response.data.data);
+  //     setCardItem(response.data.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  useEffect(() => {
+    todoCardItem();
+  }, []);
+
   return (
     <Container className="mt-4">
       <Button variant="primary" onClick={handleOpen}>
@@ -70,147 +81,55 @@ function TodoCard() {
       </Modal>
 
       <Grid container spacing={2} className="mt-2">
-        <Grid item xs={4}>
-          <Card className="mt-4">
-            <Card.Body>
-              <Card.Title>
-                <Grid container spacing={2}>
-                  <Grid item xs={8}>
-                    Card Title
-                  </Grid>
-                  <Grid item xs={4} style={{ textAlign: "right" }}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={5}>
-                        <EditIcon />
-                      </Grid>
-                      <Grid item xs={5}>
-                        <DeleteIcon />
+        {cardItem.map((item, key) => (
+          <Grid item xs={4} key={key}>
+            <Card className="mt-4">
+              <Card.Body>
+                <Card.Title>
+                  <Grid container spacing={2}>
+                    <Grid item xs={8}>
+                      {item.card_name}
+                    </Grid>
+                    <Grid item xs={4} style={{ textAlign: "right" }}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={5}>
+                          <EditIcon />
+                        </Grid>
+                        <Grid item xs={5}>
+                          <DeleteIcon />
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
-                </Grid>
-              </Card.Title>
+                </Card.Title>
 
-              <Nav justify variant="tabs" defaultActiveKey="/home">
-                <Nav.Item>
-                  <Nav.Link href="#">All</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="link-1">Pending</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="link-2">Completed </Nav.Link>
-                </Nav.Item>
-              </Nav>
+                <Nav justify variant="tabs" defaultActiveKey="/home">
+                  <Nav.Item>
+                    <Nav.Link href="#">All</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="link-1">Pending</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="link-2">Completed </Nav.Link>
+                  </Nav.Item>
+                </Nav>
 
-              <Grid container spacing={2} className="mt-2">
-                <Grid item xs={8}>
-                  <FormGroup>
-                    <FormControlLabel control={<Checkbox defaultChecked />} label="This is a Task List." />
-                  </FormGroup>
-                </Grid>
-
-                <Grid item xs={4} style={{ textAlign: "right" }}>
-                  <MoreHorizIcon />
-                </Grid>
-              </Grid>
-            </Card.Body>
-          </Card>
-        </Grid>
-        <Grid item xs={4}>
-          <Card className="mt-4">
-            <Card.Body>
-              <Card.Title>
-                <Grid container spacing={2}>
+                <Grid container spacing={2} className="mt-2">
                   <Grid item xs={8}>
-                    Card Title
+                    <FormGroup>
+                      <FormControlLabel control={<Checkbox defaultChecked />} label="This is a Task List." />
+                    </FormGroup>
                   </Grid>
+
                   <Grid item xs={4} style={{ textAlign: "right" }}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={5}>
-                        <EditIcon />
-                      </Grid>
-                      <Grid item xs={5}>
-                        <DeleteIcon />
-                      </Grid>
-                    </Grid>
+                    <MoreHorizIcon />
                   </Grid>
                 </Grid>
-              </Card.Title>
-
-              <Nav justify variant="tabs" defaultActiveKey="/home">
-                <Nav.Item>
-                  <Nav.Link href="#">All</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="link-1">Pending</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="link-2">Completed </Nav.Link>
-                </Nav.Item>
-              </Nav>
-
-              <Grid container spacing={2} className="mt-2">
-                <Grid item xs={8}>
-                  <FormGroup>
-                    <FormControlLabel control={<Checkbox defaultChecked />} label="This is a Task List." />
-                  </FormGroup>
-                </Grid>
-
-                <Grid item xs={4} style={{ textAlign: "right" }}>
-                  <MoreHorizIcon />
-                </Grid>
-              </Grid>
-            </Card.Body>
-          </Card>
-        </Grid>
-        <Grid item xs={4}>
-          <Card className="mt-4">
-            <Card.Body>
-              <Card.Title>
-                <Grid container spacing={2}>
-                  <Grid item xs={8}>
-                    Card Title
-                  </Grid>
-                  <Grid item xs={4} style={{ textAlign: "right" }}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={5}>
-                        <EditIcon />
-                      </Grid>
-                      <Grid item xs={5}>
-                        <DeleteIcon />
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Card.Title>
-
-              <Nav justify variant="tabs" defaultActiveKey="/home">
-                <Nav.Item>
-                  <Nav.Link href="#">All</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="link-1">Pending</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="link-2">Completed </Nav.Link>
-                </Nav.Item>
-              </Nav>
-
-              <Grid container spacing={2} className="mt-2">
-                <Grid item xs={8}>
-                  <FormGroup>
-                    <FormControlLabel control={<Checkbox defaultChecked />} label="This is a Task List." />
-                  </FormGroup>
-                </Grid>
-
-                <Grid item xs={4} style={{ textAlign: "right" }}>
-                  <MoreHorizIcon />
-                </Grid>
-              </Grid>
-            </Card.Body>
-          </Card>
-        </Grid>
+              </Card.Body>
+            </Card>
+          </Grid>
+        ))}
       </Grid>
     </Container>
   );
