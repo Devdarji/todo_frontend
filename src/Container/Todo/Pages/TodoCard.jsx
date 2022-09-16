@@ -1,11 +1,11 @@
-import { Box, Checkbox, FormControlLabel, FormGroup, Grid, Modal } from "@mui/material";
+import { Box, Checkbox, FormControlLabel, FormGroup, Grid, IconButton, Modal } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Container, Form, InputGroup, Nav } from "react-bootstrap";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import serviceEndpoints from "../serviceEndpoints";
-import {todoService} from "../../../axiosInstance"
+import { todoService } from "../../../axiosInstance";
 import axios from "axios";
 
 const style = {
@@ -26,8 +26,6 @@ function TodoCard() {
   const handleClose = () => setOpen(false);
   const [cardItem, setCardItem] = useState([]);
 
-
-
   const todoCardItem = async () => {
     try {
       const response = await axios.get("http://localhost:8006/todo/card-items/");
@@ -38,17 +36,6 @@ function TodoCard() {
       console.error(error);
     }
   };
-
-  // const todoTasks = async () => {
-  //   try {
-  //     const response = await axios.get("http://localhost:8006/todo/card-items/");
-
-  //     console.log(response.data.data);
-  //     setCardItem(response.data.data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   useEffect(() => {
     todoCardItem();
@@ -87,13 +74,28 @@ function TodoCard() {
               <Card.Body>
                 <Card.Title>
                   <Grid container spacing={2}>
+                    {item?.card_name? (
+                      <>
+                      
+                      </>
+
+                    ) : (
+                      
+                    )
+                    }
                     <Grid item xs={8}>
                       {item.card_name}
                     </Grid>
                     <Grid item xs={4} style={{ textAlign: "right" }}>
                       <Grid container spacing={2}>
                         <Grid item xs={5}>
-                          <EditIcon />
+                          <IconButton
+                            size="small"
+                            onClick={() => handleEditableFields("invoice")}
+                            className="edt-icon-btn"
+                          >
+                            <EditIcon />
+                          </IconButton>
                         </Grid>
                         <Grid item xs={5}>
                           <DeleteIcon />
@@ -103,7 +105,7 @@ function TodoCard() {
                   </Grid>
                 </Card.Title>
 
-                <Nav justify variant="tabs" defaultActiveKey="/home">
+                <Nav justify variant="tabs" defaultActiveKey="/home" className="mb-2">
                   <Nav.Item>
                     <Nav.Link href="#">All</Nav.Link>
                   </Nav.Item>
@@ -115,17 +117,18 @@ function TodoCard() {
                   </Nav.Item>
                 </Nav>
 
-                <Grid container spacing={2} className="mt-2">
-                  <Grid item xs={8}>
-                    <FormGroup>
-                      <FormControlLabel control={<Checkbox defaultChecked />} label="This is a Task List." />
-                    </FormGroup>
+                {item.title.map((i, key) => (
+                  <Grid container spacing={2} key={key}>
+                    <Grid item xs={8}>
+                      <FormGroup>
+                        <FormControlLabel control={<Checkbox checked={i.is_pending} />} label={i.title} />
+                      </FormGroup>
+                    </Grid>
+                    <Grid item xs={4} style={{ textAlign: "right" }}>
+                      <MoreHorizIcon />
+                    </Grid>
                   </Grid>
-
-                  <Grid item xs={4} style={{ textAlign: "right" }}>
-                    <MoreHorizIcon />
-                  </Grid>
-                </Grid>
+                ))}
               </Card.Body>
             </Card>
           </Grid>
