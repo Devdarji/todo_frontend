@@ -37,9 +37,28 @@ function TodoCard() {
     }
   };
 
+  const deleteCard = async (id) => {
+    try {
+      const res = await axios.delete(`http://localhost:8006/todo/${id}/delete-card/`);
+      setCardItem(res.data.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const handleEditableFields = async (id) => {
+    try {
+      const res = await axios.delete(`http://localhost:8006/todo/${id}/update-card/`);
+      setCardItem(res.data.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     todoCardItem();
   }, []);
+
 
   return (
     <Container className="mt-4">
@@ -74,7 +93,7 @@ function TodoCard() {
               <Card.Body>
                 <Card.Title>
                   <Grid container spacing={2}>
-                    {item?.card_name? (
+                    {/* {item?.card_name? (
                       <>
                       
                       </>
@@ -82,7 +101,7 @@ function TodoCard() {
                     ) : (
                       
                     )
-                    }
+                    } */}
                     <Grid item xs={8}>
                       {item.card_name}
                     </Grid>
@@ -91,14 +110,16 @@ function TodoCard() {
                         <Grid item xs={5}>
                           <IconButton
                             size="small"
-                            onClick={() => handleEditableFields("invoice")}
+                            onClick={() => handleEditableFields(item.id)}
                             className="edt-icon-btn"
                           >
                             <EditIcon />
                           </IconButton>
                         </Grid>
                         <Grid item xs={5}>
-                          <DeleteIcon />
+                          <IconButton variant="contained" color="primary" onClick={() => deleteCard(item.id)}>
+                            <DeleteIcon />
+                          </IconButton>
                         </Grid>
                       </Grid>
                     </Grid>
