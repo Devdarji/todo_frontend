@@ -59,7 +59,6 @@ function TodoCard() {
     todoCardItem();
   }, []);
 
-  console.log("================>", cardItem);
 
   return (
     <Container className="mt-4">
