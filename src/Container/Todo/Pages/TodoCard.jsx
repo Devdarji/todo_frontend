@@ -1,11 +1,9 @@
-import { Box, Checkbox, FormControlLabel, FormGroup, Grid, IconButton, Modal } from "@mui/material";
+import { Box, Checkbox, FormControlLabel, FormGroup, Grid, IconButton, Modal, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Container, Form, InputGroup, Nav } from "react-bootstrap";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import serviceEndpoints from "../serviceEndpoints";
-import { todoService } from "../../../axiosInstance";
 import axios from "axios";
 
 const style = {
@@ -22,10 +20,29 @@ const style = {
 
 function TodoCard() {
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const [cardItem, setCardItem] = useState([]);
+  const [cardName, setCardName] = useState(false);
+  const [editCardName, setEditCardName] = useState(false);
+  const [cardNameSaveButton, setCardNameSaveButton] = useState(true)
+  const handleClose = () => setOpen(false);
+  const handleOpen = () => setOpen(true);
 
+  const handleChange = (key, value, isChild = false) => {
+    const cardInfo = {
+      ...cardItem,
+    };
+
+    if (key === "card_name") {
+      if (
+        cardItem.card_item
+      ) {
+        setCardNameSaveButton(true);
+      } else {
+        setCardNameSaveButton(false);
+      }
+    }
+  };
+  
   const todoCardItem = async () => {
     try {
       const response = await axios.get("http://localhost:8006/todo/card-items/");
@@ -44,7 +61,7 @@ function TodoCard() {
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   const handleEditableFields = async (id) => {
     try {
@@ -55,10 +72,21 @@ function TodoCard() {
     }
   };
 
+  const changeCardName = () => {
+    setEditCardName(false);
+  };
+
+  const handleVerifiedRegistrationNumber = () => {
+    let editCardNamePayload = {};
+
+    editCardNamePayload["card_name"] = cardItem.card_name;
+
+    // setEditVerifiedRegistrationNumber(true);
+  };
+
   useEffect(() => {
     todoCardItem();
   }, []);
-
 
   return (
     <Container className="mt-4">
@@ -93,19 +121,56 @@ function TodoCard() {
               <Card.Body>
                 <Card.Title>
                   <Grid container spacing={2}>
-                    {/* {item?.card_name? (
+                    {cardName ? (
                       <>
-                      
+                        <Grid item xs={8}>
+                          {item.card_name}
+                        </Grid>
+                        <div className="col-1 ">
+                          <IconButton onClick={changeCardName} className="edt-icon-btn">
+                            <EditIcon />
+                          </IconButton>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="col-8 mt-3">
+                          <TextField
+                            required={true}
+                            color="secondary"
+                            label="Card Name"
+                            type="text"
+                            onChange={(e) => handleChange("card_name", e.target.value)}
+                            value={item?.card_name ? item?.card_name : ""}
+                          />
+                          {/* <IconButton><DoneIcon variant="contained" onClick={updateClaim}/></IconButton> */}
+                        </div>
+                        <div className="ml-2 col-2 mt-3">
+                          <Button
+                            fullWidth={false}
+                            onClick={handleVerifiedRegistrationNumber}
+                            disabled={cardNameSaveButton}
+                          >
+                            {item.card_name ? "Update" : "Save"}
+                          </Button>
+                        </div>
                       </>
 
-                    ) : (
-                      
-                    )
-                    } */}
-                    <Grid item xs={8}>
+                      // <div className="col-3">
+                      //   <div className="d-inline-flex Email-edit-btn-fix">
+                      //     <Grid item xs={8}>
+                      //       {item.card_name}
+                      //     </Grid>
+                      //     <IconButton size="small" onClick={changeCardName} className="edt-icon-btn">
+                      //       <EditIcon />
+                      //     </IconButton>
+                      //   </div>
+                      // </div>
+                    )}
+                    {/* <Grid item xs={8}>
                       {item.card_name}
-                    </Grid>
-                    <Grid item xs={4} style={{ textAlign: "right" }}>
+                    </Grid> */}
+                    {/* <Grid item xs={4} style={{ textAlign: "right" }}>
                       <Grid container spacing={2}>
                         <Grid item xs={5}>
                           <IconButton
@@ -122,7 +187,7 @@ function TodoCard() {
                           </IconButton>
                         </Grid>
                       </Grid>
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 </Card.Title>
 
