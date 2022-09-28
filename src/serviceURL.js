@@ -1,5 +1,5 @@
 const serviceURL = {
-    todoService:"http://localhost:8005/"
+    todoService:"http://localhost:8006/"
 };
 
 export default serviceURL;

@@ -7,6 +7,7 @@ import routes from "./Routes";
 
 // eslint-disable-next-line
 const Routes = memo(() => {
+    console.log("++++++++++Dev darji");
     return (
         <Router>
             <ErrorBoundary>

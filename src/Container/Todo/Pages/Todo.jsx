@@ -1,12 +1,12 @@
 import React from 'react'
 import NavBar from './NavBar';
-import TodoCard from './TodoCard';
+import TodoItem from './TodoItem';
 
 const todoMain = () => {
   return (
     <>
-      <NavBar/>
-      <TodoCard/>
+      <NavBar />
+      <TodoItem />
     </>
   );
 };

@@ -6,6 +6,8 @@ const todoService = axios.create({
     baseURL: `${process.env.REACT_APP_TODO_SERVICE}/todo/`,
 });
 
+console.log("=================", todoService);
+
 todoService.interceptors.request.use(
     (config) => {
         const tmpConfig = config;

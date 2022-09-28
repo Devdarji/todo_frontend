@@ -22,7 +22,7 @@ function TodoCard() {
   const [open, setOpen] = useState(false);
   const [cardItem, setCardItem] = useState([]);
   const [cardName, setCardName] = useState(false);
-  const [editCardName, setEditCardName] = useState(false);
+  const [editCardName, setEditCardName] = useState(true);
   const [cardNameSaveButton, setCardNameSaveButton] = useState(true)
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
@@ -65,14 +65,14 @@ function TodoCard() {
 
   const handleEditableFields = async (id) => {
     try {
-      const res = await axios.delete(`http://localhost:8006/todo/${id}/update-card/`);
+      const res = await axios.put(`http://localhost:8006/todo/${id}/update-card/`);
       setCardItem(res.data.data);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const changeCardName = () => {
+  const changeCardName = (id) => {
     setEditCardName(false);
   };
 
@@ -120,59 +120,68 @@ function TodoCard() {
             <Card className="mt-4">
               <Card.Body>
                 <Card.Title>
-                  <Grid container spacing={2}>
-                    {cardName ? (
-                      <>
-                        <Grid item xs={8}>
-                          {item.card_name}
-                        </Grid>
-                        <div className="col-1 ">
-                          <IconButton onClick={changeCardName} className="edt-icon-btn">
-                            <EditIcon />
-                          </IconButton>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="col-8 mt-3">
-                          <TextField
-                            required={true}
-                            color="secondary"
-                            label="Card Name"
-                            type="text"
-                            onChange={(e) => handleChange("card_name", e.target.value)}
-                            value={item?.card_name ? item?.card_name : ""}
-                          />
-                          {/* <IconButton><DoneIcon variant="contained" onClick={updateClaim}/></IconButton> */}
-                        </div>
-                        <div className="ml-2 col-2 mt-3">
-                          <Button
-                            fullWidth={false}
-                            onClick={handleVerifiedRegistrationNumber}
-                            disabled={cardNameSaveButton}
-                          >
-                            {item.card_name ? "Update" : "Save"}
-                          </Button>
-                        </div>
-                      </>
+                  {item.card_name && (
+                    <Grid container spacing={2}>
+                      {editCardName ? (
+                        <>
+                          <div className="col-3">
+                            <Grid item xs={8}>
+                              {item.card_name}
+                            </Grid>
+                          </div>
+                          <div className="col-1 ">
+                            <IconButton onClick={() => changeCardName(item.id)} className="edt-icon-btn">
+                              <EditIcon />
+                            </IconButton>
+                          </div>
+                        </>
+                      ) : (
+                        // <>
+                        //   <Grid item xs={8}>
+                        //     {item.card_name}
+                        //   </Grid>
+                        //   <div className="col-1 ">
+                        //     <IconButton onClick={changeCardName} className="edt-icon-btn">
+                        //       <EditIcon />
+                        //     </IconButton>
+                        //   </div>
+                        // </>
+                        <>
+                          <div className="col-8 mt-3 m-auto">
+                            <TextField
+                              required={true}
+                              color="secondary"
+                              label="Card Name"
+                              type="text"
+                              onChange={(e) => handleChange("card_name", e.target.value)}
+                              value={item?.card_name ? item?.card_name : ""}
+                            />
+                            {/* <IconButton><DoneIcon variant="contained" onClick={updateClaim}/></IconButton> */}
+                          </div>
+                          <div className="col-2 mt-3 m-auto">
+                            <Button onClick={() => handleEditableFields(item.id)} disabled={cardNameSaveButton}>
+                              {item.card_name ? "Update" : "Save"}
+                            </Button>
+                          </div>
+                        </>
 
-                      // <div className="col-3">
-                      //   <div className="d-inline-flex Email-edit-btn-fix">
-                      //     <Grid item xs={8}>
-                      //       {item.card_name}
-                      //     </Grid>
-                      //     <IconButton size="small" onClick={changeCardName} className="edt-icon-btn">
-                      //       <EditIcon />
-                      //     </IconButton>
-                      //   </div>
-                      // </div>
-                    )}
-                    {/* <Grid item xs={8}>
+                        // <div className="col-3">
+                        //   <div className="d-inline-flex Email-edit-btn-fix">
+                        //     <Grid item xs={8}>
+                        //       {item.card_name}
+                        //     </Grid>
+                        //     <IconButton size="small" onClick={changeCardName} className="edt-icon-btn">
+                        //       <EditIcon />
+                        //     </IconButton>
+                        //   </div>
+                        // </div>
+                      )}
+                      {/* <Grid item xs={8}>
                       {item.card_name}
                     </Grid> */}
-                    {/* <Grid item xs={4} style={{ textAlign: "right" }}>
-                      <Grid container spacing={2}>
-                        <Grid item xs={5}>
+                      <Grid item xs={4} style={{ textAlign: "right" }}>
+                        <Grid container spacing={2}>
+                          {/* <Grid item xs={5}>
                           <IconButton
                             size="small"
                             onClick={() => handleEditableFields(item.id)}
@@ -180,15 +189,16 @@ function TodoCard() {
                           >
                             <EditIcon />
                           </IconButton>
-                        </Grid>
-                        <Grid item xs={5}>
+                        </Grid> */}
+                          {/* <Grid item xs={5}>
                           <IconButton variant="contained" color="primary" onClick={() => deleteCard(item.id)}>
                             <DeleteIcon />
                           </IconButton>
+                        </Grid> */}
                         </Grid>
                       </Grid>
-                    </Grid> */}
-                  </Grid>
+                    </Grid>
+                  )}
                 </Card.Title>
 
                 <Nav justify variant="tabs" defaultActiveKey="/home" className="mb-2">
