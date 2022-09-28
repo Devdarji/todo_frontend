@@ -3,5 +3,5 @@ const appRoutes = {
         todoRoute: "/",
     }
 }
-
+console.log("========appRoutes=====", appRoutes);
 export default appRoutes;
